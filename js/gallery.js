@@ -94,15 +94,29 @@ function handleClick(event) {
     return;
   }
 
+ const itemClick = event.target.closest(".gallery-item");
+
   const instance = basicLightbox.create(`
 <img src= "${event.target.dataset.source}" width="360" height="600"/>
-`);
+`,
+  {onShow: (instance) => {
+        ul.addEventListener("keydown", onEscapeButton);
+      },
+
+    onClose: (instance) => {
+      ul.removeEventListener("keydown", onEscapeButton);
+    },
+  }
+  );
 
   instance.show();
-
-  ul.addEventListener("keydown", (event) => {
+  
+  function onEscapeButton() {
+  window.addEventListener('keydown', function (event) {
     if (event.key === "Escape") {
-      instance.close();
-    }
-  });
-}
+    instance.close();}
+  })
+  }
+  }
+  
+
